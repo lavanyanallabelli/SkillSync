@@ -4,10 +4,16 @@ import Button from '../common/Button';
 import Modal from '../common/Modal';
 import Input from '../common/Input';
 
-const ProfileHeader = ({ user, isCurrentUser, onUpdate }) => {
+import deafultPicture from '../../assets/pngtree-cute-animated-girl-png-image_11754140.png'
+
+const ProfileHeader = ({  
+  user = {}, // Provide a default empty object
+  isCurrentUser = false, 
+  onUpdate = () => {}  
+}) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(user.profilePicture || '/src/assets/images/default-avatar.png');
+  const [previewUrl, setPreviewUrl] = useState(user.profilePicture || deafultPicture);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -17,13 +23,20 @@ const ProfileHeader = ({ user, isCurrentUser, onUpdate }) => {
     }
   };
 
-  const handleSaveImage = async () => {
-    if (profileImage) {
-      // In a real app, you'd upload the image to a server here
-      await onUpdate({ profilePicture: previewUrl });
-      setIsEditModalOpen(false);
-    }
-  };
+  // const handleSaveImage = async () => {
+  //   if (profileImage) {
+  //     // In a real app, you'd upload the image to a server here
+  //     await onUpdate({ profilePicture: previewUrl });
+  //     setIsEditModalOpen(false);
+  //   }
+  // };
+
+  
+  // Destructure with defaults to prevent undefined errors
+  const { 
+    name = 'User', 
+    profilePicture = deafultPicture 
+  } = user;
 
   return (
     <div className="relative pb-20">
@@ -34,8 +47,10 @@ const ProfileHeader = ({ user, isCurrentUser, onUpdate }) => {
       <div className="absolute left-6 bottom-0 transform translate-y-1/2">
         <div className="relative">
           <img
-            src={user.profilePicture || '/src/assets/images/default-avatar.png'}
-            alt={user.name}
+          src = {profilePicture} 
+          alt={name}
+            //src={user.profilePicture || '/src/assets/images/default-avatar.png'}
+           // alt={user.name}
             className="h-32 w-32 rounded-full border-4 border-white object-cover"
           />
           {isCurrentUser && (
@@ -78,7 +93,7 @@ const ProfileHeader = ({ user, isCurrentUser, onUpdate }) => {
               Cancel
             </Button>
             <Button
-              onClick={handleSaveImage}
+              //onClick={handleSaveImage}
               disabled={!profileImage}
             >
               Save
@@ -101,7 +116,7 @@ const ProfileHeader = ({ user, isCurrentUser, onUpdate }) => {
             <input
               type="file"
               accept="image/*"
-              onChange={handleImageChange}
+             // onChange={handleImageChange}
               className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
             />
           </div>

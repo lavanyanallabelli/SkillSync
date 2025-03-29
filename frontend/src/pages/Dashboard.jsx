@@ -5,11 +5,12 @@ import SkillOverview from "../components/dashboard/SkillOverview";
 import QuickActions from "../components/dashboard/QuickActions";
 import UpcomingSession from "../components/dashboard/UpcomingSessions";
 import NotificationItem from "../components/dashboard/NotificationPanel";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   // Sample data - in a real app would come from API
   const user = {
-    id: "u123",
+    _id: "67e4dfe733850b616f6d3a00",
     name: "Alex Johnson",
     profilePicture: "/api/placeholder/80/80",
     bio: "Software developer passionate about learning new technologies and sharing knowledge.",
@@ -63,7 +64,12 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column */}
           <div className="lg:col-span-1 space-y-6">
-            <ProfileSummary user={user} />
+          <Link to={`/profile/${user._id}`}>
+              <div className="cursor-pointer">
+                <ProfileSummary user={user} />
+              </div>
+            </Link>
+            {/* <ProfileSummary user={user} /> */}
             <SkillOverview
               teachingSkills={user.teachingSkills}
               learningSkills={user.learningSkills}
